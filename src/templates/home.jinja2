@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ______   _____  __   __  __  __   ______   __  __    ____     _____
+ |  ____| |_   _| \ \ / / |  \/  | |  ____| |  \/  |  / __ \   / ____|
+ | |__      | |    \ V /  | \  / | | |__    | \  / | | |  | | | (___
+ |  __|     | |     > <   | |\/| | |  __|   | |\/| | | |  | |  \___ \
+ | |       _| |_   / . \  | |  | | | |____  | |  | | | |__| |  ____) |
+ |_|      |_____| /_/ \_\ |_|  |_| |______| |_|  |_|  \____/  |_____/
+
+Embed Memos on Telegram
+-->
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="canonical" href="{{ url }}"/>
+    <link rel="icon" href="{{ instance.logoUrl }}" />
+    <meta property="theme-color" content="#00a8fc"/>
+    <meta property="twitter:site" content="{{ author.nickname }}"/>
+    <meta property="twitter:creator" content="{{ author.nickname }}"/>
+    <meta property="twitter:title" content="{{ instance.title }}"/>
+    <meta property="twitter:image" content="{{ instance.logoUrl }}"/>
+    <meta property="twitter:card" content="summary"/>
+
+    <meta property="og:url" content="{{ url }}"/>
+    <meta property="og:image" content="{{ instance.logoUrl }}"/>
+    <meta property="og:title" content="{{ instance.title }}"/>
+    <meta property="og:description" content="{{ instance.description }}"/>
+    <meta property="og:site_name" content="{{ instance.title }}"/>
+
+    <meta property="author" content="{{ author.nickname }}">
+</head>
+<body>
+<section class="section-backgroundImage">
+    <figure class="graf--layoutFillWidth"></figure>
+</section>
+<section class="section--first">
+    If you can see this, your browser is doing something weird with your user agent.
+    <a href="{{ url }}">View original post</a>
+</section>
+</body>
+</html>
