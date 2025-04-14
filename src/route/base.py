@@ -1,3 +1,4 @@
+import re
 from typing import TYPE_CHECKING
 
 from persica.factory.component import BaseComponent
@@ -14,16 +15,18 @@ if TYPE_CHECKING:
 
 
 def check_redirect(request: "Request") -> bool:
-    new = request.path_params.get("path")
+    new = request.url.path
     if not new:
         return False
+    new = re.sub(r':/(?!/)', "://", new)
     if new in ["/", "/favicon.ico"]:
         return False
     return True
 
 
 def get_redirect_response(request: "Request") -> RedirectResponse:
-    new = request.path_params.get("path")
+    new = request.url.path[1:]
+    new = re.sub(r':/(?!/)', "://", new)
     return RedirectResponse(url=new, status_code=302)
 
 
