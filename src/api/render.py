@@ -36,13 +36,55 @@ class RenderArticle(AsyncInitializingComponent):
             return img["src"]
         return None
 
+    @staticmethod
+    def fix_img_in_p(soup: "BeautifulSoup") -> None:
+        for p in soup.find_all('p'):
+            imgs = p.find_all('img')
+            if imgs:  # 如果有 img 标签
+                texts = list(p.stripped_strings)  # 获取 p 中的所有文本
+                new_ps = []
+                current_text = []
+
+                for element in p.contents:
+                    if element.name == 'img':
+                        # 遇到 img 标签时，先保存当前文本，创建新的 p 标签
+                        if current_text:
+                            new_ps.append(soup.new_tag('p'))
+                            new_ps[-1].string = ' '.join(current_text)
+                            current_text = []
+                        # 创建 img 标签并添加到新 p 标签
+                        img_tag = soup.new_tag('img', src=element['src'])
+                        new_ps.append(img_tag)
+                    else:
+                        current_text.append(str(element))
+
+                # 添加最后的文本
+                if current_text:
+                    new_ps.append(soup.new_tag('p'))
+                    new_ps[-1].string = ' '.join(current_text)
+
+                # 清空当前 p 标签并添加新的内容
+                p.clear()
+                for new_p in new_ps:
+                    p.append(new_p)
+
+    @staticmethod
+    def export_html(soup: "BeautifulSoup") -> str:
+        text = soup.prettify()
+        remove_tags = ["<html>", "<body>", "</body>", "</html>"]
+        for tag in remove_tags:
+            text = text.replace(tag, "")
+        return text.strip()
+
     def process_article_data(self, host: str, post_info: "Memo") -> dict:
         soup = BeautifulSoup(post_info.html, "lxml")
+        self.fix_img_in_p(soup)
         data = {
             "published_time": post_info.createTime.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "channel": self.channel_map.get(host, "chainwon_channel"),
             "title": self.find_title(soup),
             "img": self.find_img(soup),
+            "content": self.export_html(soup),
         }
         return data
 
