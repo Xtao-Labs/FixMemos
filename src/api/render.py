@@ -49,6 +49,8 @@ class RenderArticle(AsyncInitializingComponent):
     @staticmethod
     def get_host_from_url(url: str) -> str:
         parsed_url = URL(url)
+        if parsed_url.scheme not in ["http", "https"] or not parsed_url.host:
+            raise ArticleNotFoundError("Invalid URL scheme")
         return f"{parsed_url.scheme}://{parsed_url.host}"
 
     async def process_article(self, path: str) -> str:

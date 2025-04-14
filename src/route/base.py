@@ -23,7 +23,7 @@ class UserAgentMiddleware(BaseHTTPMiddleware):
         self, request: "Request", call_next: "RequestResponseEndpoint"
     ) -> "Response":
         user_agent = request.headers.get("User-Agent")
-        if (not user_agent) or ("telegram" not in user_agent.lower()):
+        if (not user_agent) or ("bot" not in user_agent.lower()):
             return get_redirect_response(request)
         return await call_next(request)
 

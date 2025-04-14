@@ -14,6 +14,7 @@ Embed Memos on Telegram
     <meta charset="UTF-8">
     <title></title>
     <link rel="canonical" href="{{ url }}"/>
+    <link rel="icon" href="{{ instance.logoUrl }}" />
     <meta property="theme-color" content="#00a8fc"/>
     <meta property="twitter:site" content="{{ author.nickname }}"/>
     <meta property="twitter:creator" content="{{ author.nickname }}"/>
@@ -29,7 +30,7 @@ Embed Memos on Telegram
     <meta property="og:image" content="{{ img or instance.logoUrl }}"/>
     <meta property="og:title" content="{{ title }} ({{ author.nickname }})"/>
     <meta property="og:description" content="{{ post.snippet }}"/>
-    <meta property="og:site_name" content="{{ title }} - {{ author.nickname }}"/>
+    <meta property="og:site_name" content="{{ instance.title }}"/>
 
     <meta property="author" content="{{ author.nickname }}">
     <!-- Telegram -->
@@ -61,7 +62,7 @@ Embed Memos on Telegram
     <details>
         <summary>作者信息</summary>
         {% if author.avatarUrl %}
-            <img src="{{ host }}{{ author.avatarUrl }}" alt="profile picture"/>
+            <pic src="{{ host }}{{ author.avatarUrl }}" alt="profile picture"></pic>
         {% endif %}
         <p>
             <a href="{{ host }}{{ author.url }}">{{ author.nickname }}</a>

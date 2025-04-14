@@ -1,20 +1,28 @@
-from typing import Optional, Any
+from typing import Any
 
 import httpx
 
 from persica.factory.component import AsyncInitializingComponent
 
 from src.api.models import Author, Instance, Memo
+from src.env import env_config
 
 
 class ApiClient(AsyncInitializingComponent):
     def __init__(self):
-        self.client = httpx.AsyncClient()
+        self._client = httpx.AsyncClient()
+
+    @property
+    def client(self) -> httpx.AsyncClient:
+        if env_config.START_WEB:
+            return self._client
+        self._client = httpx.AsyncClient()
+        return self._client
 
     async def shutdown(self):
-        if self.client.is_closed:
+        if self._client.is_closed:
             return
-        await self.client.aclose()
+        await self._client.aclose()
 
     async def req(self, url: str) -> dict[str, Any]:
         response = await self.client.get(url)
