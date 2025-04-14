@@ -19,15 +19,15 @@ Embed Memos on Telegram
     <meta property="twitter:site" content="{{ author.nickname }}"/>
     <meta property="twitter:creator" content="{{ author.nickname }}"/>
     <meta property="twitter:title" content="{{ title }} ({{ author.nickname }})"/>
-    <meta property="twitter:image" content="{{ img or instance.logoUrl }}"/>
     {% if img %}
-    <meta property="twitter:card" content="summary_large_image"/>
+        <meta property="twitter:image" content="{{ img }}"/>
+        <meta property="twitter:card" content="summary_large_image"/>
+        <meta property="og:image" content="{{ img }}"/>
     {% else %}
-    <meta property="twitter:card" content="summary"/>
+        <meta property="twitter:card" content="summary"/>
     {% endif %}
 
     <meta property="og:url" content="{{ url }}"/>
-    <meta property="og:image" content="{{ img or instance.logoUrl }}"/>
     <meta property="og:title" content="{{ title }} ({{ author.nickname }})"/>
     <meta property="og:description" content="{{ post.snippet }}"/>
     <meta property="og:site_name" content="{{ instance.title }}"/>
@@ -61,10 +61,10 @@ Embed Memos on Telegram
     <!-- author -->
     <details>
         <summary>作者信息</summary>
-        {% if author.avatarUrl %}
-            <pic src="{{ host }}{{ author.avatarUrl }}" alt="profile picture"></pic>
-        {% endif %}
         <p>
+            {% if author.avatarUrl %}
+            <pic width="100" height="100" src="{{ host }}{{ author.avatarUrl }}" alt="profile picture"></pic>
+            {% endif %}
             <a href="{{ host }}{{ author.url }}">{{ author.nickname }}</a>
         </p>
     </details>

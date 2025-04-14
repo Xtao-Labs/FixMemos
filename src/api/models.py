@@ -3,6 +3,8 @@ from datetime import datetime
 import mistune
 from pydantic import BaseModel
 
+m = mistune.create_markdown(escape=False, plugins=["url", "strikethrough", "footnotes", "table", "speedup"])
+
 
 class Instance(BaseModel):
     host: str
@@ -41,7 +43,7 @@ class Memo(BaseModel):
 
     @property
     def html(self) -> str:
-        return mistune.html(self.content)
+        return m(self.content)
 
     @property
     def memo_id(self) -> str:
