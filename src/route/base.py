@@ -13,6 +13,15 @@ if TYPE_CHECKING:
     from starlette.responses import Response
 
 
+def check_redirect(request: "Request") -> bool:
+    new = request.path_params.get("path")
+    if not new:
+        return False
+    if new in ["/", "/favicon.ico"]:
+        return False
+    return True
+
+
 def get_redirect_response(request: "Request") -> RedirectResponse:
     new = request.path_params.get("path")
     return RedirectResponse(url=new, status_code=302)
@@ -23,7 +32,8 @@ class UserAgentMiddleware(BaseHTTPMiddleware):
         self, request: "Request", call_next: "RequestResponseEndpoint"
     ) -> "Response":
         user_agent = request.headers.get("User-Agent")
-        if (not user_agent) or ("bot" not in user_agent.lower()):
+        need_redirect = check_redirect(request)
+        if need_redirect and ((not user_agent) or ("bot" not in user_agent.lower())):
             return get_redirect_response(request)
         return await call_next(request)
 
